@@ -1,0 +1,26 @@
+<script src="/socket.io/socket.io.js"></script>
+
+<button id="turnOff">Turn off stream</button>
+<iframe id="stream" width="632" height="480" src="https://www.youtube.com/embed/JYMxTj01e9U" title="YouTube video player"
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+</iframe>
+
+<script>
+    const socket = window.io()
+    const turnOffBtn = document.getElementById('turnOff')
+    const stream = document.getElementById('stream')
+    const room = '<%= room %>' // The room id we got from the route handler
+    
+
+    // Join room
+    socket.emit('join', room)
+
+    socket.on('turnOff', () => {
+        stream.remove()
+    })
+
+    turnOffBtn.onclick = e => {
+        socket.emit('turnOff', room) 
+    }
+</script>
